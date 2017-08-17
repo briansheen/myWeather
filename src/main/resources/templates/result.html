@@ -14,16 +14,25 @@
           rel="stylesheet"/>
 </head>
 <body>
-<h1 class="text-center">Show me the weather in:</h1>
-<div class="container mx-auto table-responsive" style="width: 400px;">
+<h1 class="text-center">Weather for XYZ</h1>
+<div class="container mx-auto table-responsive">
     <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Summary</th>
+            <th>Chance of Rain</th>
+            <th>Temperature</th>
+            <th>Apparent Temperature</th>
+            <th>Humidity</th>
+        </tr>
+        </thead>
         <tbody>
         <tr>
-            <td>City / Address / Zip / Place</td>
-            <td><input type="text" class="form-control"/></td>
-        </tr>
-        <tr>
-            <td class="text-center" colspan="2"><a href="/result"><input class="btn btn-default" type="button" value="Go"/></a></td>
+            <td>Clear</td>
+            <td>0%</td>
+            <td>95.69</td>
+            <td>98.7</td>
+            <td>37%</td>
         </tr>
         </tbody>
     </table>
