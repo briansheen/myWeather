@@ -26,7 +26,10 @@
             </tr>
         </table>
     </div>
-    <a href="/home"><input class="btn btn-default" type="button" value="Submit"/></a>
+    <p th:if="${param.error}" class="alert alert-warning">
+        Invalid Username or Password
+    </p>
+    <input class="btn btn-default" type="submit" value="Submit"/>
 </form>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
         integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"

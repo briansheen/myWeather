@@ -11,16 +11,17 @@ import java.util.List;
  * Created by bsheen on 8/16/17.
  */
 
-
+@Entity
+@Table(name="user")
 public class User {
 
     private String username;
     private String password;
-    private List<Search> searches;
     private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @Id
     public String getUsername() {
         return username;
     }
@@ -35,14 +36,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Search> getSearches() {
-        return searches;
-    }
-
-    public void setSearches(List<Search> searches) {
-        this.searches = searches;
     }
 
     public Boolean getEnabled() {
@@ -89,7 +82,6 @@ public class User {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", searches=" + searches +
                 ", enabled=" + enabled +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
