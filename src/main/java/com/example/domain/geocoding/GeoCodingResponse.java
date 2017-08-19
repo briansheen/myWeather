@@ -10,6 +10,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GeoCodingResponse {
     private List<Results> results;
+    private String status;
 
     public List<Results> getResults() {
         return results;
@@ -19,10 +20,19 @@ public class GeoCodingResponse {
         this.results = results;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "GeoCodingResponse{" +
                 "results=" + results +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

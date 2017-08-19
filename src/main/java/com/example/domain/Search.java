@@ -1,14 +1,24 @@
 package com.example.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by bsheen on 8/16/17.
  */
+
+@Entity
+@Table(name="search")
 public class Search {
 
     private Integer searchId;
     private User user;
+
+    @NotNull
     private String searchQuery;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getSearchId() {
         return searchId;
     }
@@ -17,6 +27,8 @@ public class Search {
         this.searchId = searchId;
     }
 
+    @ManyToOne()
+    @JoinColumn(name="username")
     public User getUser() {
         return user;
     }

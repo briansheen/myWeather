@@ -1,8 +1,6 @@
 package com.example.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +18,7 @@ public class User {
     private Boolean enabled;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private List<Search> searches;
 
     @Id
     public String getUsername() {
@@ -62,6 +61,15 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    public List<Search> getSearches() {
+        return searches;
+    }
+
+    public void setSearches(List<Search> searches) {
+        this.searches = searches;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,6 +93,7 @@ public class User {
                 ", enabled=" + enabled +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", searches=" + searches +
                 '}';
     }
 }
