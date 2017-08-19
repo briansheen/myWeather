@@ -18,19 +18,21 @@
     <div class="navbar-brand"><form class="form-inline" action="#" th:action="@{/logout}" method="post"><div th:inLine="text">Hello, [[${#httpServletRequest.remoteUser}]]&nbsp;&nbsp;</div><a href="/"><input type="submit" value="Sign Out"/></a></form></div>
 </nav>
 <h1 class="text-center">Show me the weather in:</h1>
-<div class="container mx-auto table-responsive" style="width: 400px;">
-    <table class="table table-bordered table-hover">
-        <tbody>
-        <tr>
-            <td>City / Address / Zip / Place</td>
-            <td><input type="text" class="form-control"/></td>
-        </tr>
-        <tr>
-            <td class="text-center" colspan="2"><a href="/result"><input class="btn btn-default" type="button" value="Go"/></a></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<form action="#" th:action="@{/home}" method="post">
+    <div class="container mx-auto table-responsive" style="width: 500px;">
+        <table class="table table-bordered table-hover">
+            <tbody>
+            <tr>
+                <td>City / Address / Zip / Place</td>
+                <td><input type="text" class="form-control" name="query"/></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-center"><input class="btn btn-warning" type="submit" value="Search"/></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
         integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
         crossorigin="anonymous"></script>

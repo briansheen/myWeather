@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Results {
-    private Formatted_Address formatted_address;
+    private String formatted_address;
     private Geometry geometry;
 
-    public Formatted_Address getFormatted_address() {
+    public String getFormatted_address() {
         return formatted_address;
     }
 
-    public void setFormatted_address(Formatted_Address formatted_address) {
+    public void setFormatted_address(String formatted_address) {
         this.formatted_address = formatted_address;
     }
 
@@ -30,7 +30,7 @@ public class Results {
     @Override
     public String toString() {
         return "Results{" +
-                "formatted_address=" + formatted_address +
+                "formatted_address='" + formatted_address + '\'' +
                 ", geometry=" + geometry +
                 '}';
     }
