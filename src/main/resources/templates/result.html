@@ -14,13 +14,13 @@
           rel="stylesheet"/>
 </head>
 <body>
-<h1 class="text-center">Weather for: <p th:text="${query}"></p></h1>
+<h1 class="text-center">Info for: <p th:text="${query}"></p></h1>
 <div class="container mx-auto table-responsive">
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
-            <th>Lat</th>
-            <th>Lng</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
             <th>Address</th>
         </tr>
         </thead>
@@ -29,6 +29,58 @@
             <td th:text="${result.getGeometry().getLocation().getLat()}"></td>
             <td th:text="${result.getGeometry().getLocation().getLng()}"></td>
             <td th:text="${result.getFormatted_address()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <h1 class="text-center">Current Forecast for: <p th:text="${query}"></p></h1>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Summary</th>
+            <th>Temperature</th>
+            <th>Apparent Temperature</th>
+            <th>Humidity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${darkSkyResponse.getCurrently().getSummary()}"></td>
+            <td th:text="${darkSkyResponse.getCurrently().getTemperature()}"></td>
+            <td th:text="${darkSkyResponse.getCurrently().getApparentTemperature()}"></td>
+            <td th:text="${darkSkyResponse.getCurrently().getHumidity()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <h1 class="text-center">Hourly Forecast for: <p th:text="${query}"></p></h1>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="text-center">Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="text-center" th:text="${darkSkyResponse.getHourly().getSummary()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Summary</th>
+            <th>Temperature</th>
+            <th>Apparent Temperature</th>
+            <th>Humidity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${darkSkyResponse.getHourly().getData()}">
+            <td th:text="${data.getTime()}"></td>
+            <td th:text="${data.getSummary()}"></td>
+            <td th:text="${data.getTemperature()}"></td>
+            <td th:text="${data.getApparentTemperature()}"></td>
+            <td th:text="${data.getHumidity()}"></td>
         </tr>
         </tbody>
     </table>
