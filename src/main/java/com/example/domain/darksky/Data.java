@@ -16,6 +16,10 @@ public class Data {
     private Double temperature;
     private Double apparentTemperature;
     private Double humidity;
+    private Double temperatureMin;
+    private Double temperatureMax;
+    private Double apparentTemperatureMin;
+    private Double apparentTemperatureMax;
 
     public Long getTime() {
         return time;
@@ -81,6 +85,38 @@ public class Data {
         this.humidity = humidity;
     }
 
+    public Double getTemperatureMin() {
+        return temperatureMin;
+    }
+
+    public void setTemperatureMin(Double temperatureMin) {
+        this.temperatureMin = temperatureMin;
+    }
+
+    public Double getTemperatureMax() {
+        return temperatureMax;
+    }
+
+    public void setTemperatureMax(Double temperatureMax) {
+        this.temperatureMax = temperatureMax;
+    }
+
+    public Double getApparentTemperatureMin() {
+        return apparentTemperatureMin;
+    }
+
+    public void setApparentTemperatureMin(Double apparentTemperatureMin) {
+        this.apparentTemperatureMin = apparentTemperatureMin;
+    }
+
+    public Double getApparentTemperatureMax() {
+        return apparentTemperatureMax;
+    }
+
+    public void setApparentTemperatureMax(Double apparentTemperatureMax) {
+        this.apparentTemperatureMax = apparentTemperatureMax;
+    }
+
     @Override
     public String toString() {
         return "Data{" +
@@ -92,6 +128,10 @@ public class Data {
                 ", temperature=" + temperature +
                 ", apparentTemperature=" + apparentTemperature +
                 ", humidity=" + humidity +
+                ", temperatureMin=" + temperatureMin +
+                ", temperatureMax=" + temperatureMax +
+                ", apparentTemperatureMin=" + apparentTemperatureMin +
+                ", apparentTemperatureMax=" + apparentTemperatureMax +
                 '}';
     }
 }

@@ -84,6 +84,43 @@
         </tr>
         </tbody>
     </table>
+    <h1 class="text-center">Daily Forecast for: <p th:text="${query}"></p></h1>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="text-center">Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="text-center" th:text="${darkSkyResponse.getDaily().getSummary()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Summary</th>
+            <th>Temperature Low</th>
+            <th>Temperature High</th>
+            <th>Apparent Temperature Low</th>
+            <th>Apparent Temperature High</th>
+            <th>Humidity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${darkSkyResponse.getDaily().getData()}">
+            <td th:text="${data.getTime()}"></td>
+            <td th:text="${data.getSummary()}"></td>
+            <td th:text="${data.getTemperatureMin()}"></td>
+            <td th:text="${data.getTemperatureMax()}"></td>
+            <td th:text="${data.getApparentTemperatureMin()}"></td>
+            <td th:text="${data.getApparentTemperatureMax()}"></td>
+            <td th:text="${data.getHumidity()}"></td>
+        </tr>
+        </tbody>
+    </table>
     <div class="row">
         <div class="col-md-4 text-center"></div>
         <div class="col-md-4 text-center">
