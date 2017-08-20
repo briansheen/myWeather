@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Data {
     private Long time;
+    private String simpleTime;
     private String summary;
     private String icon;
     private Double precipProbability;
@@ -117,10 +118,19 @@ public class Data {
         this.apparentTemperatureMax = apparentTemperatureMax;
     }
 
+    public String getSimpleTime() {
+        return simpleTime;
+    }
+
+    public void setSimpleTime(String simpleTime) {
+        this.simpleTime = simpleTime;
+    }
+
     @Override
     public String toString() {
         return "Data{" +
                 "time=" + time +
+                ", simpleTime='" + simpleTime + '\'' +
                 ", summary='" + summary + '\'' +
                 ", icon='" + icon + '\'' +
                 ", precipProbability=" + precipProbability +

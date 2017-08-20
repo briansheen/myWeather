@@ -18,4 +18,9 @@ public class DarkSkyServiceImpl implements DarkSkyService {
     public DarkSkyResponse search(Double lat, Double lng) {
         return restTemplate.getForObject("https://api.darksky.net/forecast/ab19dad29f373a6bcf1c1b1bc145cdbb/" + lat + "," + lng, DarkSkyResponse.class);
     }
+
+    @Override
+    public DarkSkyResponse searchWithDate(Double lat, Double lng, Long epochTime) {
+        return restTemplate.getForObject("https://api.darksky.net/forecast/ab19dad29f373a6bcf1c1b1bc145cdbb/" + lat + "," + lng +","+ epochTime, DarkSkyResponse.class);
+    }
 }

@@ -14,7 +14,7 @@
           rel="stylesheet"/>
 </head>
 <body>
-<h1 class="text-center">Info for: <p th:text="${query}"></p></h1>
+<h1 class="text-center">Info for: <p th:text="${query}"></p> on: <p th:text="${queryDate}"></p></h1>
 <div class="container mx-auto table-responsive">
     <table class="table table-bordered table-hover">
         <thead>
@@ -32,26 +32,7 @@
         </tr>
         </tbody>
     </table>
-    <h1 class="text-center">Current Forecast for: <p th:text="${query}"></p></h1>
-    <table class="table table-bordered table-hover">
-        <thead>
-        <tr>
-            <th>Summary</th>
-            <th>Temperature</th>
-            <th>Apparent Temperature</th>
-            <th>Humidity</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${darkSkyResponse.getCurrently().getSummary()}"></td>
-            <td th:text="${darkSkyResponse.getCurrently().getTemperature()}"></td>
-            <td th:text="${darkSkyResponse.getCurrently().getApparentTemperature()}"></td>
-            <td th:text="${darkSkyResponse.getCurrently().getHumidity()}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <h1 class="text-center">Hourly Forecast for: <p th:text="${query}"></p></h1>
+    <h1 class="text-center">Hourly Forecast for: <p th:text="${query}"></p> on: <p th:text="${queryDate}"></p></h1>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
@@ -84,19 +65,7 @@
         </tr>
         </tbody>
     </table>
-    <h1 class="text-center">Daily Forecast for: <p th:text="${query}"></p></h1>
-    <table class="table table-bordered table-hover">
-        <thead>
-        <tr>
-            <th class="text-center">Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td class="text-center" th:text="${darkSkyResponse.getDaily().getSummary()}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <h1 class="text-center">Daily Forecast for: <p th:text="${query}"></p> on: <p th:text="${queryDate}"></p></h1>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>

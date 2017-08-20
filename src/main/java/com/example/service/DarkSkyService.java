@@ -8,5 +8,6 @@ import com.example.domain.darksky.DarkSkyResponse;
 public interface DarkSkyService {
 
     DarkSkyResponse search(Double lat, Double lng);
+    DarkSkyResponse searchWithDate(Double lat, Double lng, Long epochTime);
 
 }

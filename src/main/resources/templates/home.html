@@ -18,13 +18,33 @@
     <div class="navbar-brand"><form class="form-inline" action="#" th:action="@{/logout}" method="post"><div th:inLine="text">Hello, [[${#httpServletRequest.remoteUser}]]&nbsp;&nbsp;</div><a href="/"><input type="submit" value="Sign Out"/></a></form><a href="/history"><input type="button" value="History"/></a></div>
 </nav>
 <h1 class="text-center">Show me the weather in:</h1>
-<form action="#" th:action="@{/home}" method="post">
-    <div class="container mx-auto table-responsive" style="width: 500px;">
+<form action="#" th:action="@{/result}" method="post">
+    <div class="container mx-auto table-responsive">
         <table class="table table-bordered table-hover">
             <tbody>
             <tr>
                 <td>City / Address / Zip / Place</td>
                 <td><input type="text" class="form-control" name="query"/></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-center"><input class="btn btn-warning" type="submit" value="Search"/></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+<h1 class="text-center">Show me the past/future weather in:</h1>
+<form action="#" th:action="@{/resultdate}" method="post">
+    <div class="container mx-auto table-responsive">
+        <table class="table table-bordered table-hover">
+            <tbody>
+            <tr>
+                <td>City / Address / Zip / Place</td>
+                <td><input type="text" class="form-control" name="query"/></td>
+            </tr>
+            <tr>
+                <td>Date (i.e. Jan 01 2018)</td>
+                <td><input type="text" class="form-control" name="queryDate"/></td>
             </tr>
             <tr>
                 <td colspan="2" class="text-center"><input class="btn btn-warning" type="submit" value="Search"/></td>

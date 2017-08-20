@@ -1,8 +1,10 @@
 package com.example.controller;
 
 import com.example.domain.Search;
+import com.example.domain.TimeConvert;
 import com.example.domain.User;
 import com.example.domain.darksky.DarkSkyResponse;
+import com.example.domain.darksky.Data;
 import com.example.domain.geocoding.GeoCodingResponse;
 import com.example.domain.geocoding.Location;
 import com.example.service.DarkSkyService;
@@ -48,7 +50,7 @@ public class WeatherController {
         return "home";
     }
 
-    @PostMapping("/home")
+    @PostMapping("/result")
     public String searchResult(Model model, @RequestParam(value = "query", required = true) String query) {
         try {
             GeoCodingResponse geoCodingResponse = geoCodingService.search(query);
@@ -56,6 +58,13 @@ public class WeatherController {
                 Location location = geoCodingResponse.getResults().get(0).getGeometry().getLocation();
                 model.addAttribute("geoCodingResponse", geoCodingResponse);
                 DarkSkyResponse darkSkyResponse = darkSkyService.search(location.getLat(), location.getLng());
+                TimeConvert timeConvert = new TimeConvert();
+                for(Data data : darkSkyResponse.getHourly().getData()){
+                    data.setSimpleTime(timeConvert.getSimpleDate(data.getTime(),darkSkyResponse.getTimezone()));
+                }
+                for(Data data : darkSkyResponse.getDaily().getData()){
+                    data.setSimpleTime(timeConvert.getSimpleDate(data.getTime(),darkSkyResponse.getTimezone()));
+                }
                 model.addAttribute("darkSkyResponse", darkSkyResponse);
             } else{
                 throw new RestClientException("");
@@ -75,9 +84,40 @@ public class WeatherController {
         return "result";
     }
 
-    @GetMapping("/result")
-    public String result(Model model) {
-        return "result";
+    @PostMapping("/resultdate")
+    public String searchResultWithDate(Model model, @RequestParam(value="query", required = true) String query, @RequestParam(value="queryDate", required=true) String queryDate){
+        try {
+            GeoCodingResponse geoCodingResponse = geoCodingService.search(query);
+            if(geoCodingResponse.getStatus().equals("OK")) {
+                Location location = geoCodingResponse.getResults().get(0).getGeometry().getLocation();
+                model.addAttribute("geoCodingResponse", geoCodingResponse);
+                TimeConvert timeConvert = new TimeConvert();
+                DarkSkyResponse darkSkyResponse = darkSkyService.searchWithDate(location.getLat(), location.getLng(),timeConvert.getEpochTime(queryDate));
+                for(Data data : darkSkyResponse.getHourly().getData()){
+                    data.setSimpleTime(timeConvert.getSimpleDate(data.getTime(),darkSkyResponse.getTimezone()));
+                }
+                for(Data data : darkSkyResponse.getDaily().getData()){
+                    data.setSimpleTime(timeConvert.getSimpleDate(data.getTime(),darkSkyResponse.getTimezone()));
+                }
+                model.addAttribute("darkSkyResponse", darkSkyResponse);
+            } else{
+                throw new RestClientException("");
+            }
+        } catch (RestClientException e) {
+            model.addAttribute("query", query);
+            model.addAttribute("queryDate", queryDate);
+            return "resultDateError";
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userService.findByUsername(currentPrincipalName);
+        Search search = new Search();
+        search.setSearchQuery(query);
+        search.setUser(user);
+        searchService.addSearch(search);
+        model.addAttribute("query", query);
+        model.addAttribute("queryDate", queryDate);
+        return "resultDate";
     }
 
     @GetMapping("/history")
