@@ -12,27 +12,98 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css"
           rel="stylesheet"/>
+    <link rel="stylesheet" href="chart.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+
 </head>
 <body>
-<h1 class="text-center">Info for: <p th:text="${query}"></p> on: <p th:text="${queryDate}"></p></h1>
-<div class="container mx-auto table-responsive">
+<div class="container mx-auto">
+    <p>
+    <h1 class="text-center">Forecast for <code th:text="${query}"></code> on <code th:text="${queryDate}"></code>
+    </h1></p>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Address</th>
+            <th class="text-center">Address</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="result : ${geoCodingResponse.getResults()}">
-            <td th:text="${result.getGeometry().getLocation().getLat()}"></td>
-            <td th:text="${result.getGeometry().getLocation().getLng()}"></td>
-            <td th:text="${result.getFormatted_address()}"></td>
+            <td class="text-center" th:text="${result.getFormatted_address()}"></td>
         </tr>
         </tbody>
     </table>
-    <h1 class="text-center">Hourly Forecast for: <p th:text="${query}"></p> on: <p th:text="${queryDate}"></p></h1>
+    <h2 class="text-center">Today's Forecast</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Summary</th>
+            <th>Temperature Low</th>
+            <th>Temperature High</th>
+            <th>Apparent Temperature Low</th>
+            <th>Apparent Temperature High</th>
+            <th>Humidity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${darkSkyResponse.getDaily().getData()}">
+            <td th:text="${data.getSimpleTime()}"></td>
+            <td th:text="${data.getSummary()}"></td>
+            <td th:text="${data.getTemperatureMin()}"></td>
+            <td th:text="${data.getTemperatureMax()}"></td>
+            <td th:text="${data.getApparentTemperatureMin()}"></td>
+            <td th:text="${data.getApparentTemperatureMax()}"></td>
+            <td th:text="${data.getHumidity()}"></td>
+        </tr>
+        </tbody>
+    </table>
+        <canvas id="myChart"></canvas>
+        <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var x = [[${x}]];
+        var y = [[${y}]];
+        var yapp = [[${yapp}]];
+        var q = [[${query}]];
+        var d = [[${queryDate}]];
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: x,
+                datasets: [{
+                    label: 'Temperature',
+                    data: y,
+                    backgroundColor: "#3e95cd"
+                }, {
+                    label: 'Apparent Temperature',
+                    data: yapp,
+                    backgroundColor: "#8e5ea2"
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Hourly Forecast for '+q+' on '+d
+                }
+            }
+        });
+        /*]]>*/
+
+        </script>
+    <h2 class="text-center">Hourly Forecast</h2>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
@@ -65,31 +136,6 @@
         </tr>
         </tbody>
     </table>
-    <h1 class="text-center">Daily Forecast for: <p th:text="${query}"></p> on: <p th:text="${queryDate}"></p></h1>
-    <table class="table table-bordered table-hover">
-        <thead>
-        <tr>
-            <th>Time</th>
-            <th>Summary</th>
-            <th>Temperature Low</th>
-            <th>Temperature High</th>
-            <th>Apparent Temperature Low</th>
-            <th>Apparent Temperature High</th>
-            <th>Humidity</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="data : ${darkSkyResponse.getDaily().getData()}">
-            <td th:text="${data.getSimpleTime()}"></td>
-            <td th:text="${data.getSummary()}"></td>
-            <td th:text="${data.getTemperatureMin()}"></td>
-            <td th:text="${data.getTemperatureMax()}"></td>
-            <td th:text="${data.getApparentTemperatureMin()}"></td>
-            <td th:text="${data.getApparentTemperatureMax()}"></td>
-            <td th:text="${data.getHumidity()}"></td>
-        </tr>
-        </tbody>
-    </table>
     <div class="row">
         <div class="col-md-4 text-center"></div>
         <div class="col-md-4 text-center">
@@ -97,14 +143,5 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
-        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
 </body>
 </html>

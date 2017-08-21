@@ -62,6 +62,39 @@
         </tr>
         </tbody>
     </table>
+    <h2 class="text-center">Hourly Forecast</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="text-center">Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="text-center" th:text="${darkSkyResponse.getHourly().getSummary()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Summary</th>
+            <th>Temperature</th>
+            <th>Apparent Temperature</th>
+            <th>Humidity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${darkSkyResponse.getHourly().getData()}">
+            <td th:text="${data.getSimpleTime()}"></td>
+            <td th:text="${data.getSummary()}"></td>
+            <td th:text="${data.getTemperature()}"></td>
+            <td th:text="${data.getApparentTemperature()}"></td>
+            <td th:text="${data.getHumidity()}"></td>
+        </tr>
+        </tbody>
+    </table>
     <canvas id="dailyChart"></canvas>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
@@ -87,7 +120,7 @@
             options: {
                 title: {
                     display: true,
-                    text: '7-Day Forecast for '+q
+                    text: 'Daily Forecast for '+q
                 }
             }
         });

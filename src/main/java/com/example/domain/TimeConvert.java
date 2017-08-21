@@ -3,7 +3,9 @@ package com.example.domain;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -18,8 +20,21 @@ public class TimeConvert {
         return format.format(date);
     }
 
-    public Long getEpochTime(String simpleDate) {
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd yyyy");
+    public String getDay(String simpleDate){
+            return simpleDate.substring(0,11);
+    }
+
+    public Long getEpochTime(String simpleDate, String timeZone) {
+        TimeZone tz = TimeZone.getTimeZone(timeZone);
+        String timeZoneAbbr = "";
+        for(int i = 0; i < tz.getDisplayName().length(); ++i){
+            char c = tz.getDisplayName().charAt(i);
+            if(Character.isUpperCase(c)){
+                timeZoneAbbr+=c;
+            }
+        }
+        simpleDate += (" " + timeZoneAbbr);
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd yyyy zzz");
         try {
             Date date = format.parse(simpleDate);
             Long epoch = date.getTime();
