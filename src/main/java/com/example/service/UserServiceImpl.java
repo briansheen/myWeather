@@ -11,7 +11,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,13 +51,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User addUser(String username) {
+    public User addUser(String username, String password) {
         User user = new User();
         user.setUsername(username);
+        user.setPassword(password);
         user.setEnabled(true);
-        LocalDateTime ldt = LocalDateTime.now();
-        user.setCreatedAt(ldt);
-        user = userRepository.save(user);
+        LocalDate ld = LocalDate.now();
+        System.out.println(ld);
+        user.setCreatedAt(ld.toString());
+        System.out.println(user);
+        userRepository.save(user);
 
         AuthCompKey authCompKey = new AuthCompKey();
         authCompKey.setUsername(username);

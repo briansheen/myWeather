@@ -11,16 +11,19 @@ import com.example.service.DarkSkyService;
 import com.example.service.GeoCodingService;
 import com.example.service.SearchService;
 import com.example.service.UserService;
+import com.sun.tools.internal.xjc.reader.xmlschema.BindGreen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 
+import javax.validation.Valid;
 import java.util.TimeZone;
 
 /**
@@ -55,12 +58,12 @@ public class WeatherController {
     }
 
     @GetMapping("/result")
-    public String redirectToHome(Model model){
+    public String redirectToHome(Model model) {
         return "redirect:/home";
     }
 
     @GetMapping("/resultdate")
-    public String redirectToHomeDate(Model model){
+    public String redirectToHomeDate(Model model) {
         return "redirect:/home";
     }
 
@@ -73,16 +76,13 @@ public class WeatherController {
                 model.addAttribute("geoCodingResponse", geoCodingResponse);
                 DarkSkyResponse darkSkyResponse = darkSkyService.search(location.getLat(), location.getLng());
                 TimeConvert timeConvert = new TimeConvert();
-//                for (Data data : darkSkyResponse.getHourly().getData()) {
-//                    data.setSimpleTime(timeConvert.getSimpleDate(data.getTime(), darkSkyResponse.getTimezone()));
-//                }
                 for (Data data : darkSkyResponse.getDaily().getData()) {
                     data.setSimpleTime(timeConvert.getSimpleDate(data.getTime(), darkSkyResponse.getTimezone()));
                 }
                 String[] day = new String[darkSkyResponse.getDaily().getData().size()];
                 Double[] ylo = new Double[day.length];
                 Double[] yhi = new Double[day.length];
-                for(int i = 0; i < day.length; ++i){
+                for (int i = 0; i < day.length; ++i) {
                     day[i] = timeConvert.getDay(darkSkyResponse.getDaily().getData().get(i).getSimpleTime());
                     ylo[i] = darkSkyResponse.getDaily().getData().get(i).getTemperatureMin();
                     yhi[i] = darkSkyResponse.getDaily().getData().get(i).getTemperatureMax();
@@ -162,5 +162,41 @@ public class WeatherController {
         String currentPrincipalName = authentication.getName();
         model.addAttribute("searchList", searchService.findSearchesByUser(currentPrincipalName));
         return "history";
+    }
+
+    @GetMapping("/register")
+    public String createUser(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String createUserSuccess(Model model, @Valid User user, @RequestParam(value = "passwordCheck", required = false) String passwordCheck, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            if (!user.getUsername().isEmpty()) {
+                if (!user.getPassword().isEmpty()) {
+                    if (user.getPassword().equals(passwordCheck)) {
+                        if (userService.findByUsername(user.getUsername()) == null) {
+                            System.out.println(user);
+                            userService.addUser(user.getUsername(), user.getPassword());
+                            return "userSuccess";
+                        } else {
+                            bindingResult.rejectValue("username", "username exists", "username already exists");
+                        }
+                    } else {
+                        bindingResult.rejectValue("password", "password does not match", "password does not match");
+                    }
+                } else {
+                    bindingResult.rejectValue("password", "password cannot be null", "password cannot be null");
+                }
+            } else {
+                bindingResult.rejectValue("username", "username cannot be null", "username cannot be null");
+            }
+        }
+        System.out.println(bindingResult.getFieldErrors().get(0).getDefaultMessage());
+        model.addAttribute("errorMessage",bindingResult.getAllErrors().get(0).getDefaultMessage());
+        model.addAttribute("user", user);
+        return "registerError";
     }
 }

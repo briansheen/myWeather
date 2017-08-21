@@ -28,7 +28,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
 
 </head>
-<body>
+<body style="padding:60px">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+        <p class="navbar-text" th:inline="text">Hello, [[${#httpServletRequest.remoteUser}]]</p>
+        <a href="/home">
+            <button type="button" class="btn btn-default navbar-btn">Home</button>
+        </a>
+        <a href="/history">
+            <button type="button" class="btn btn-default navbar-btn">History</button>
+        </a>
+        <form class="navbar-form navbar-right" action="#" th:action="@{/logout}" method="post">
+            <div class="form-group"></div>
+            <a href="/">
+                <button type="submit" class="btn btn-default">Logout</button>
+            </a>
+        </form>
+    </div>
+</nav>
 <div class="container mx-auto">
     <p>
     <h1 class="text-center">Forecast for <code th:text="${query}"></code> on <code th:text="${queryDate}"></code>
@@ -51,10 +68,10 @@
         <tr>
             <th>Time</th>
             <th>Summary</th>
-            <th>Temperature Low</th>
-            <th>Temperature High</th>
-            <th>Apparent Temperature Low</th>
-            <th>Apparent Temperature High</th>
+            <th>Temperature Low (°F)</th>
+            <th>Temperature High (°F)</th>
+            <th>Apparent Temperature Low (°F)</th>
+            <th>Apparent Temperature High (°F)</th>
             <th>Humidity</th>
         </tr>
         </thead>
@@ -80,23 +97,30 @@
         var d = [[${queryDate}]];
         var ctx = document.getElementById("myChart").getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: x,
                 datasets: [{
                     label: 'Temperature',
                     data: y,
-                    backgroundColor: "#3e95cd"
+                    fill: false,
+                    borderColor: "#c8e99a"
                 }, {
                     label: 'Apparent Temperature',
                     data: yapp,
-                    backgroundColor: "#8e5ea2"
+                    fill: false,
+                    borderColor: "#e5a68c"
                 }]
             },
             options: {
                 title: {
                     display: true,
                     text: 'Hourly Forecast for '+q+' on '+d
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
                 }
             }
         });
@@ -121,8 +145,8 @@
         <tr>
             <th>Time</th>
             <th>Summary</th>
-            <th>Temperature</th>
-            <th>Apparent Temperature</th>
+            <th>Temperature (°F)</th>
+            <th>Apparent Temperature (°F)</th>
             <th>Humidity</th>
         </tr>
         </thead>

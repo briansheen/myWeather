@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>SkyCast Web App</title>
+    <title>Getting Started: Handling Form Submission</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
@@ -23,12 +23,28 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="row">
-    <div class="col-md-4 text-center"></div>
-    <div class="col-md-4 text-center">
-        <h3>Welcome to SkyCast, the new way to read your local weather!</h3>
-        <a href="/home"><input class="btn btn-default" type="button" value="Get Started!"/></a>
+<h1 class="display-4 text-center">Create Account</h1>
+<p></p>
+<form class="text-center" th:action="@{/register}" th:object="${user}" method="post">
+    <div class="container mx-auto" style="width: 400px;">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <td class="table-inverse">Username</td>
+                <td><input type="text" th:field="*{username}"/></td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <td class="table-inverse">Password</td>
+                <td><input type="password" th:field="*{password}"/></td>
+            </tr>
+            <tr>
+                <td class="table-inverse">Repeat Password</td>
+                <td><input type="password" name="passwordCheck"/></td>
+            </tr>
+        </table>
     </div>
-</div>
+    <div class="text-center"><input class="btn btn-success" type="submit" value="Create Account"/> <a href="/login"><input class="btn btn-default" type="button" value="Back"/></a></div>
+</form>
 </body>
 </html>
