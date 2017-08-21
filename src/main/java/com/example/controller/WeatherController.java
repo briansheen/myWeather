@@ -11,7 +11,6 @@ import com.example.service.DarkSkyService;
 import com.example.service.GeoCodingService;
 import com.example.service.SearchService;
 import com.example.service.UserService;
-import com.sun.tools.internal.xjc.reader.xmlschema.BindGreen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 
 import javax.validation.Valid;
-import java.util.TimeZone;
 
 /**
  * Created by bsheen on 8/17/17.
@@ -194,7 +192,6 @@ public class WeatherController {
                 bindingResult.rejectValue("username", "username cannot be null", "username cannot be null");
             }
         }
-        System.out.println(bindingResult.getFieldErrors().get(0).getDefaultMessage());
         model.addAttribute("errorMessage",bindingResult.getAllErrors().get(0).getDefaultMessage());
         model.addAttribute("user", user);
         return "registerError";
