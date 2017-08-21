@@ -176,7 +176,6 @@ public class WeatherController {
                 if (!user.getPassword().isEmpty()) {
                     if (user.getPassword().equals(passwordCheck)) {
                         if (userService.findByUsername(user.getUsername()) == null) {
-                            System.out.println(user);
                             userService.addUser(user.getUsername(), user.getPassword());
                             return "userSuccess";
                         } else {
